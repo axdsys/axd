@@ -11,7 +11,7 @@
     <!-- Add defer to scripts to ensure they load after HTML -->
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
-
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.79/build/spline-viewer.js"></script>
     <!-- Instagram Logo from FontAwesom.e -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
@@ -23,51 +23,74 @@
         }
 
         :root {
-            --primary-red: #ff0000;
+            --primary-violet: #8A2BE2; /* BlueViolet */
+            --accent-violet: #9370DB;  /* MediumPurple */
+            --bright-violet: #EE82EE;  /* Violet */
+            --light-violet: #D8BFD8;   /* Thistle */
+            --dark-violet: #4B0082;    /* Indigo */
             --background-black: #000000;
             --text-white: #ffffff;
-            --text-gray: #888888;
+            --text-light: #E6E6FA;     /* Lavender */
+            --text-gray: #C0C0C0;      /* Silver */
         }
 
         body {
             font-family: 'Press Start 2P', cursive;
             background-color: var(--background-black);
-            color: var(--text-white);
+            color: var(--text-light);
             line-height: 1.6;
             position: relative;
         }
 
-        #particles-js {
-            position: absolute;
+        /* Style for the Spline viewer as background */
+        spline-viewer {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* Ensure particles are behind other content */
+            z-index: -2; /* Behind particles */
+            pointer-events: none; /* Allows interaction with elements above */
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Ensure particles are behind other content but above spline */
+        }
+
+        /* Main content wrapper to ensure content appears above background */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
         }
 
         header {
             text-align: center;
             padding: 2rem;
-            background-color: var(--background-black);
-            border-bottom: 4px solid var(--primary-red);
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            border-bottom: 4px solid var(--primary-violet);
         }
 
         header h1 {
-            color: var(--primary-red);
+            color: var(--bright-violet);
             font-size: 2rem;
+            text-shadow: 0 0 10px var(--accent-violet);
         }
 
         nav {
             display: flex;
             justify-content: center;
-            background-color: var(--background-black);
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
             padding: 1rem 0;
-            border-bottom: 2px solid var(--primary-red);
+            border-bottom: 2px solid var(--primary-violet);
         }
 
         nav a {
-            color: var(--text-white);
+            color: var(--light-violet);
             text-decoration: none;
             margin: 0 1rem;
             font-size: 0.9rem;
@@ -75,41 +98,49 @@
         }
 
         nav a:hover {
-            color: var(--primary-red);
+            color: var(--bright-violet);
             transform: scale(1.1);
+            text-shadow: 0 0 8px var(--primary-violet);
         }
 
         .hero {
             text-align: center;
             padding: 4rem 2rem;
-            color: var(--text-white);
-            z-index: 1; /* Ensure content is on top of particles */
+            color: var(--text-light);
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
         }
 
         .hero-subtitle {
             font-size: 2rem;
-            color: var(--primary-red);
+            color: var(--bright-violet);
             margin-bottom: 1rem;
+            text-shadow: 0 0 15px var(--accent-violet);
         }
 
         .hero h2 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
+            color: var(--text-white);
+            text-shadow: 0 0 10px var(--primary-violet);
         }
 
         .hero p {
             font-size: 1rem;
+            color: var(--light-violet);
         }
 
         section {
             padding: 4rem 2rem;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            margin-bottom: 1rem;
         }
 
         section h2 {
             text-align: center;
-            color: var(--primary-red);
+            color: var(--bright-violet);
             font-size: 1.5rem;
             margin-bottom: 2rem;
+            text-shadow: 0 0 10px var(--accent-violet);
         }
 
         .grid {
@@ -119,9 +150,9 @@
         }
 
         .card {
-            background-color: var(--background-black);
+            background-color: rgba(0, 0, 0, 0.8); /* Darker semi-transparent background */
             padding: 1.5rem;
-            border: 2px solid var(--primary-red);
+            border: 2px solid var(--primary-violet);
             text-align: center;
             border-radius: 8px; /* Slightly rounded corners */
             transition: all 0.3s ease; /* Smooth transitions */
@@ -131,7 +162,7 @@
         .card h3 {
             font-size: 1rem;
             margin-bottom: 0.5rem;
-            color: var(--primary-red);
+            color: var(--accent-violet);
         }
 
         .card p {
@@ -141,38 +172,42 @@
 
         /* Soft light effect */
         .card {
-            box-shadow: 0 4px 8px rgba(255, 0, 51, 0.2); /* Soft shadow for a soft light effect */
+            box-shadow: 0 4px 8px rgba(138, 43, 226, 0.3); /* Soft shadow with violet */
         }
 
         /* Glow effect on hover */
         .card:hover {
-            box-shadow: 0 0 15px rgba(255, 0, 51, 0.8); /* Stronger glow on hover */
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.8); /* Stronger violet glow on hover */
             transform: translateY(-5px); /* Slightly lift the card */
+            border-color: var(--bright-violet);
         }
 
         footer {
             text-align: center;
             padding: 1rem;
-            background-color: var(--background-black);
-            border-top: 2px solid var(--primary-red);
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            border-top: 2px solid var(--primary-violet);
             font-size: 0.8rem;
         }
 
         footer a {
-            color: var(--primary-red);
+            color: var(--bright-violet);
             text-decoration: none;
         }
 
         footer a:hover {
             text-decoration: underline;
+            text-shadow: 0 0 5px var(--accent-violet);
         }
 
         .contact-form {
             max-width: 600px;
             margin: 0 auto;
             padding: 2rem;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.8); /* Darker semi-transparent background */
             border-radius: 10px;
+            border: 1px solid var(--primary-violet);
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.2);
         }
 
         .form-group {
@@ -183,14 +218,21 @@
         .form-group textarea {
             width: 100%;
             padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 0, 51, 0.2);
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--accent-violet);
             border-radius: 5px;
             color: var(--text-white);
         }
 
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--bright-violet);
+            box-shadow: 0 0 8px var(--primary-violet);
+        }
+
         .submit-btn {
-            background: var(--primary-red);
+            background: var(--primary-violet);
             color: var(--text-white);
             padding: 1rem 2rem;
             border: none;
@@ -198,6 +240,12 @@
             cursor: pointer;
             width: 100%;
             font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: var(--bright-violet);
+            box-shadow: 0 0 10px var(--accent-violet);
         }
 
         @media (max-width: 768px) {
@@ -215,107 +263,111 @@
         }
 
         .typing-text {
-            color: var(--primary-red);
+            color: var(--bright-violet);
+            text-shadow: 0 0 10px var(--primary-violet);
         }
-
     </style>
 </head>
 <body>
-
+    <!-- Spline viewer as background -->
+    <spline-viewer url="https://prod.spline.design/qZKzcS6Udq0LyJL9/scene.splinecode"></spline-viewer>
+    
     <div id="particles-js"></div>
 
-    <header>
-        <h1>AXD</h1>
-    </header>
+    <div class="content-wrapper">
+        <header>
+            <h1>AXD</h1>
+        </header>
 
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Achievements</a>
-        <a href="#contact">Contact</a>
-    </nav>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Achievements</a>
+            <a href="#contact">Contact</a>
+        </nav>
 
-    <section class="hero" id="home">
-        <h2>Hi, It's me Arshad B</h2>
-        <div class="hero-subtitle">SOC Analyst & <span class="typing-text"></span></div>
-        <p> A relentless digital guardian specializing in uncovering security vulnerabilities 
-            and strengthening cyber defenses. With expertise in penetration testing and ethical 
-            hacking, I help organizations protect their digital assets from emerging threats.</p>
-    </section>
+        <section class="hero" id="home">
+            <h2>Hi, It's me Arshad B</h2>
+            <div class="hero-subtitle">SOC Analyst & <span class="typing-text"></span></div>
+            <p>A relentless digital guardian specializing in uncovering security vulnerabilities 
+                and strengthening cyber defenses. With expertise in penetration testing and ethical 
+                hacking, I help organizations protect their digital assets from emerging threats.</p>
+        </section>
 
-    <section id="skills">
-        <h2>Expertise</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>Vulnerability Assessment</h3>
-                <p>Methodical discovery and analysis of security vulnerabilities in web applications and networks</p>
+        <section id="skills">
+            <h2>Expertise</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Vulnerability Assessment</h3>
+                    <p>Methodical discovery and analysis of security vulnerabilities in web applications and networks</p>
+                </div>
+                <div class="card">
+                    <h3>Web Security</h3>
+                    <p>Deep expertise in identifying and mitigating OWASP Top 10 vulnerabilities.</p>
+                </div>
+                <div class="card">
+                    <h3>Penetration Testing</h3>
+                    <p>Advanced penetration testing with focus on web applications and API security</p>
+                </div>
+                <div class="card">
+                    <h3>Security Research</h3>
+                    <p>Active research in emerging security threats and vulnerability patterns</p>
+                </div>
             </div>
-            <div class="card">
-                <h3>Web Security</h3>
-                <p>Deep expertise in identifying and mitigating OWASP Top 10 vulnerabilities.</p>
-            </div>
-            <div class="card">
-                <h3>Penetration Testing</h3>
-                <p>Advanced penetration testing with focus on web applications and API security</p>
-            </div>
-            <div class="card">
-                <h3>Security Research</h3>
-                <p>Active research in emerging security threats and vulnerability patterns</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="projects">
-        <h2>Notable Achievements</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>Bug Hunting Impact</h3>
-                <p>Discovered critical vulnerabilities in major platforms, contributing to a more secure digital ecosystem</p>
+        <section id="projects">
+            <h2>Notable Achievements</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Bug Hunting Impact</h3>
+                    <p>Discovered critical vulnerabilities in major platforms, contributing to a more secure digital ecosystem</p>
+                </div>
+                <div class="card">
+                    <h3>Recognition</h3>
+                    <p>Acknowledged in multiple Hall of Fame listings for responsible vulnerability disclosure</p>
+                </div>
+                <div class="card">
+                    <h3>Certifications</h3>
+                    <p>Holder of advanced certifications in penetration testing and web security</p>
+                </div>
             </div>
-            <div class="card">
-                <h3>Recognition</h3>
-                <p>Acknowledged in multiple Hall of Fame listings for responsible vulnerability disclosure</p>
-            </div>
-            <div class="card">
-                <h3>Certifications</h3>
-                <p>Holder of advanced certifications in penetration testing and web security</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="contact">
-        <h2 class="section-title">Get in Touch</h2>
-        <form class="contact-form">
-            <div class="form-group">
-                <input type="text" id="name" placeholder="Name" required>
-            </div>
-            <div class="form-group">
-                <input type="email" id="email" placeholder="Email" required>
-            </div>
-            <div class="form-group">
-                <textarea id="message" placeholder="Message" rows="5" required></textarea>
-            </div>
-            <button type="submit" class="submit-btn">Send Message</button>
-        </form>
-    </section>
+        <section id="contact">
+            <h2 class="section-title">Get in Touch</h2>
+            <form class="contact-form">
+                <div class="form-group">
+                    <input type="text" id="name" placeholder="Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="message" placeholder="Message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </section>
 
-    <footer>
-        <!-- Instagram Link with Icon -->
-        <p>Follow me on Instagram: <a href="https://www.instagram.com/axd.bat" target="_blank"><i class="fab fa-instagram"></i> axd.bat</a></p>
-    </footer>
+        <footer>
+            <!-- Instagram Link with Icon -->
+            <p>Follow me on Instagram: <a href="https://www.instagram.com/axd.bat" target="_blank"><i class="fab fa-instagram"></i> axd.bat</a></p>
+        </footer>
+    </div>
 
     <script>
         window.addEventListener('load', function() {
-            // Initialize particles.js
+            // Initialize particles.js with violet colors
             if (window.particlesJS) {
                 particlesJS('particles-js', {
                     particles: {
                         number: { value: 80, density: { enable: true, value_area: 800 } },
-                        color: { value: '#ff0033' },
+                        color: { value: '#8A2BE2' }, // BlueViolet color
                         shape: { type: 'circle' },
                         opacity: { value: 0.5, random: false },
                         size: { value: 3, random: true },
-                        line_linked: { enable: true, distance: 150, color: '#ff0033', opacity: 0.4, width: 1 },
+                        line_linked: { enable: true, distance: 150, color: '#9370DB', opacity: 0.4, width: 1 }, // MediumPurple
                         move: { enable: true, speed: 6 }
                     },
                     interactivity: {
@@ -332,7 +384,7 @@
             // Initialize Typed.js
             if (window.Typed) {
                 new Typed('.typing-text', {
-                    strings: [ 'Security Researcher', 'Ethical Hacker', 'Bug Hunter'],
+                    strings: ['Security Researcher', 'Ethical Hacker', 'Bug Hunter'],
                     typeSpeed: 100,
                     backSpeed: 60,
                     loop: true
