@@ -3,16 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXD|SOC Analyst </title>
+    <title>AXD|SOC Analyst</title>
 
-    <!-- Load Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
-    <!-- Add defer to scripts to ensure they load after HTML -->
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
-    <script type="modue" src="https://unpkg.com/@splinetool/viewer@1.9.79/build/spline-viewer.js"></script>
-    <!-- Instagram Logo from FontAwesom.e -->
+    <script type="modul" src="https://unpkg.com/@splinetool/viewer@1.9.79/build/spline-viewer.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
     <style>
@@ -23,34 +19,34 @@
         }
 
         :root {
-            --primary-violet: #8A2BE2; /* BlueViolet */
-            --accent-violet: #9370DB;  /* MediumPurple */
-            --bright-violet: #EE82EE;  /* Violet */
-            --light-violet: #D8BFD8;   /* Thistle */
-            --dark-violet: #4B0082;    /* Indigo */
+            --primary-violet: #8A2BE2;
+            --accent-violet: #9370DB;
+            --bright-violet: #EE82EE;
+            --light-violet: #D8BFD8;
+            --dark-violet: #4B0082;
             --background-black: #000000;
             --text-white: #ffffff;
-            --text-light: #E6E6FA;     /* Lavender */
-            --text-gray: #C0C0C0;      /* Silver */
+            --text-light: #E6E6FA;
+            --text-gray: #C0C0C0;
         }
-
         body {
             font-family: 'Press Start 2P', cursive;
             background-color: var(--background-black);
             color: var(--text-light);
             line-height: 1.6;
             position: relative;
+            overflow-x: hidden;
         }
 
-        /* Style for the Spline viewer as background */
         spline-viewer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -2; /* Behind particles */
-            pointer-events: none; /* Allows interaction with elements above */
+            z-index: -2;
+            pointer-events: none;
+            animation: fadeIn 2s ease-in;
         }
 
         #particles-js {
@@ -59,10 +55,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* Ensure particles are behind other content but above spline */
+            z-index: -1;
         }
 
-        /* Main content wrapper to ensure content appears above background */
         .content-wrapper {
             position: relative;
             z-index: 1;
@@ -71,22 +66,27 @@
         header {
             text-align: center;
             padding: 2rem;
-            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            background-color: rgba(0, 0, 0, 0.7);
             border-bottom: 4px solid var(--primary-violet);
+            animation: slideDown 1s ease-out;
         }
 
         header h1 {
             color: var(--bright-violet);
             font-size: 2rem;
             text-shadow: 0 0 10px var(--accent-violet);
+            animation: neonGlow 1.5s infinite alternate;
         }
 
         nav {
             display: flex;
             justify-content: center;
-            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            background-color: rgba(0, 0, 0, 0.7);
             padding: 1rem 0;
             border-bottom: 2px solid var(--primary-violet);
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         nav a {
@@ -94,12 +94,28 @@
             text-decoration: none;
             margin: 0 1rem;
             font-size: 0.9rem;
-            transition: transform 0.2s ease, color 0.2s ease;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--bright-violet);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
         }
 
         nav a:hover {
             color: var(--bright-violet);
-            transform: scale(1.1);
+            transform: translateY(-3px);
             text-shadow: 0 0 8px var(--primary-violet);
         }
 
@@ -107,7 +123,8 @@
             text-align: center;
             padding: 4rem 2rem;
             color: var(--text-light);
-            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+            background-color: rgba(0, 0, 0, 0.6);
+            animation: fadeInUp 1.5s ease-out;
         }
 
         .hero-subtitle {
@@ -122,17 +139,28 @@
             margin-bottom: 1rem;
             color: var(--text-white);
             text-shadow: 0 0 10px var(--primary-violet);
+            animation: bounceIn 1s ease;
         }
 
         .hero p {
             font-size: 1rem;
             color: var(--light-violet);
+            opacity: 0;
+            animation: fadeIn 2s ease forwards 0.5s;
         }
 
         section {
             padding: 4rem 2rem;
-            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            background-color: rgba(0, 0, 0, 0.7);
             margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         section h2 {
@@ -141,6 +169,7 @@
             font-size: 1.5rem;
             margin-bottom: 2rem;
             text-shadow: 0 0 10px var(--accent-violet);
+            animation: pulse 2s infinite;
         }
 
         .grid {
@@ -150,19 +179,37 @@
         }
 
         .card {
-            background-color: rgba(0, 0, 0, 0.8); /* Darker semi-transparent background */
+            background-color: rgba(0, 0, 0, 0.8);
             padding: 1.5rem;
             border: 2px solid var(--primary-violet);
             text-align: center;
-            border-radius: 8px; /* Slightly rounded corners */
-            transition: all 0.3s ease; /* Smooth transitions */
-            position: relative; /* Added for positioning */
+            border-radius: 8px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
         }
 
         .card h3 {
             font-size: 1rem;
             margin-bottom: 0.5rem;
             color: var(--accent-violet);
+            transition: transform 0.3s ease;
         }
 
         .card p {
@@ -170,48 +217,54 @@
             color: var(--text-gray);
         }
 
-        /* Soft light effect */
-        .card {
-            box-shadow: 0 4px 8px rgba(138, 43, 226, 0.3); /* Soft shadow with violet */
+        .card:hover {
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.9);
+            transform: scale(1.05) rotate(1deg);
+            border-color: var(--bright-violet);
         }
 
-        /* Glow effect on hover */
-        .card:hover {
-            box-shadow: 0 0 15px rgba(138, 43, 226, 0.8); /* Stronger violet glow on hover */
-            transform: translateY(-5px); /* Slightly lift the card */
-            border-color: var(--bright-violet);
+        .card:hover h3 {
+            transform: scale(1.1);
         }
 
         footer {
             text-align: center;
             padding: 1rem;
-            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            background-color: rgba(0, 0, 0, 0.7);
             border-top: 2px solid var(--primary-violet);
             font-size: 0.8rem;
+            animation: fadeIn 1s ease;
         }
 
         footer a {
             color: var(--bright-violet);
             text-decoration: none;
+            transition: all 0.3s ease;
         }
 
         footer a:hover {
-            text-decoration: underline;
-            text-shadow: 0 0 5px var(--accent-violet);
+            text-shadow: 0 0 10px var(--accent-violet);
+            transform: scale(1.1);
         }
 
         .contact-form {
             max-width: 600px;
             margin: 0 auto;
             padding: 2rem;
-            background: rgba(0, 0, 0, 0.8); /* Darker semi-transparent background */
+            background: rgba(0, 0, 0, 0.8);
             border-radius: 10px;
             border: 1px solid var(--primary-violet);
             box-shadow: 0 0 20px rgba(138, 43, 226, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .contact-form:hover {
+            transform: translateY(-10px);
         }
 
         .form-group {
             margin-bottom: 1.5rem;
+            position: relative;
         }
 
         .form-group input,
@@ -222,13 +275,14 @@
             border: 1px solid var(--accent-violet);
             border-radius: 5px;
             color: var(--text-white);
+            transition: all 0.3s ease;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
-            outline: none;
             border-color: var(--bright-violet);
-            box-shadow: 0 0 8px var(--primary-violet);
+            box-shadow: 0 0 12px var(--primary-violet);
+            transform: scale(1.02);
         }
 
         .submit-btn {
@@ -241,25 +295,67 @@
             width: 100%;
             font-weight: bold;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.2);
+            transition: width 0.4s ease;
+        }
+
+        .submit-btn:hover::after {
+            width: 100%;
         }
 
         .submit-btn:hover {
             background: var(--bright-violet);
-            box-shadow: 0 0 10px var(--accent-violet);
+            box-shadow: 0 0 15px var(--accent-violet);
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        @keyframes neonGlow {
+            from { text-shadow: 0 0 5px var(--accent-violet); }
+            to { text-shadow: 0 0 20px var(--accent-violet); }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         @media (max-width: 768px) {
-            .hero h2 {
-                font-size: 1.5rem;
-            }
-
-            .hero p {
-                font-size: 0.8rem;
-            }
-
-            nav a {
-                font-size: 0.7rem;
-            }
+            .hero h2 { font-size: 1.5rem; }
+            .hero p { font-size: 0.8rem; }
+            nav a { font-size: 0.7rem; }
         }
 
         .typing-text {
@@ -269,9 +365,7 @@
     </style>
 </head>
 <body>
-    <!-- Spline viewer as background -->
     <spline-viewer url="https://prod.spline.design/qZKzcS6Udq0LyJL9/scene.splinecode"></spline-viewer>
-    
     <div id="particles-js"></div>
 
     <div class="content-wrapper">
@@ -289,29 +383,46 @@
         <section class="hero" id="home">
             <h2>Hi, It's me Arshad B</h2>
             <div class="hero-subtitle">SOC Analyst & <span class="typing-text"></span></div>
-            <p>A relentless digital guardian specializing in uncovering security vulnerabilities 
-                and strengthening cyber defenses. With expertise in penetration testing and ethical 
-                hacking, I help organizations protect their digital assets from emerging threats.</p>
+            <p>I’m a passionate and self-taught
+                <b>cybersecurity researcher</b> from Kerala, India, specializing
+                in exploring and addressing complex security challenges. I’m
+                dedicated to exploring the depths of cybersecurity through
+                hands-on experimentation, striving to secure digital environments
+                and raise awareness through my innovative approaches and personal
+                experience. I am deeply committed to studying, researching, and
+                exploring the cybersecurity field, with a strong passion for
+                advancing my expertise and contributing to innovative security
+                solutions.</p>
         </section>
 
         <section id="skills">
             <h2>Expertise</h2>
             <div class="grid">
                 <div class="card">
-                    <h3>Vulnerability Assessment</h3>
-                    <p>Methodical discovery and analysis of security vulnerabilities in web applications and networks</p>
+                    <h3>Cyber Security Research</h3>
+                    <p>As a cybersecurity enthusiast and researcher, I am exploring
+                        the field as a generalist to touch upon major areas,
+                        understand diverse concepts, adapt to various domains, and
+                        cultivate interest and curiosity in them.</p>
                 </div>
                 <div class="card">
-                    <h3>Web Security</h3>
-                    <p>Deep expertise in identifying and mitigating OWASP Top 10 vulnerabilities.</p>
+                    <h3>{Scripting/Programming<br />/Automation}</h3>
+                    <p>I devolop varios scripts and tools for automation and
+                        research purposes including exploits, pentesting scripts,
+                        monitoring scripts etc..</p>
                 </div>
                 <div class="card">
-                    <h3>Penetration Testing</h3>
-                    <p>Advanced penetration testing with focus on web applications and API security</p>
+                    <h3>Social Engineering Research</h3>
+                    <p> As the weakest link in the security chain is often the human
+                        element, I would like to explore the various ways it can be
+                        exploited by conducting my own unique experiments.</p>
                 </div>
                 <div class="card">
-                    <h3>Security Research</h3>
-                    <p>Active research in emerging security threats and vulnerability patterns</p>
+                    <h3>Monitoring and Log Analysis</h3>
+                    <p>I have a keen interest in log analysis and monitoring for
+                        detecting and hunting attack patterns and threats. I focus
+                        on preventing these threats through effective prevention
+                        mechanisms.</p>
                 </div>
             </div>
         </section>
@@ -321,21 +432,21 @@
             <div class="grid">
                 <div class="card">
                     <h3>Bug Hunting Impact</h3>
-                    <p>Discovered critical vulnerabilities in major platforms, contributing to a more secure digital ecosystem</p>
+                    <p>Discovered critical vulnerabilities</p>
                 </div>
                 <div class="card">
                     <h3>Recognition</h3>
-                    <p>Acknowledged in multiple Hall of Fame listings for responsible vulnerability disclosure</p>
+                    <p>Hall of Fame listings</p>
                 </div>
                 <div class="card">
                     <h3>Certifications</h3>
-                    <p>Holder of advanced certifications in penetration testing and web security</p>
+                    <p>Security certifications</p>
                 </div>
             </div>
         </section>
 
         <section id="contact">
-            <h2 class="section-title">Get in Touch</h2>
+            <h2>Get in Touch</h2>
             <form class="contact-form">
                 <div class="form-group">
                     <input type="text" id="name" placeholder="Name" required>
@@ -351,45 +462,71 @@
         </section>
 
         <footer>
-            <!-- Instagram Link with Icon -->
             <p>Follow me on Instagram: <a href="https://www.instagram.com/axd.bat" target="_blank"><i class="fab fa-instagram"></i> axd.bat</a></p>
         </footer>
     </div>
 
     <script>
         window.addEventListener('load', function() {
-            // Initialize particles.js with violet colors
+            // Enhanced particles.js
             if (window.particlesJS) {
                 particlesJS('particles-js', {
                     particles: {
-                        number: { value: 80, density: { enable: true, value_area: 800 } },
-                        color: { value: '#8A2BE2' }, // BlueViolet color
-                        shape: { type: 'circle' },
-                        opacity: { value: 0.5, random: false },
-                        size: { value: 3, random: true },
-                        line_linked: { enable: true, distance: 150, color: '#9370DB', opacity: 0.4, width: 1 }, // MediumPurple
-                        move: { enable: true, speed: 6 }
+                        number: { value: 100, density: { enable: true, value_area: 800 } },
+                        color: { value: ['#8A2BE2', '#EE82EE', '#9370DB'] },
+                        shape: { type: ['circle', 'triangle', 'star'] },
+                        opacity: { value: 0.7, random: true },
+                        size: { value: 4, random: true },
+                        line_linked: { enable: true, distance: 150, color: '#9370DB', opacity: 0.4, width: 1 },
+                        move: { enable: true, speed: 8, direction: 'none', random: true }
                     },
                     interactivity: {
                         detect_on: 'canvas',
                         events: {
-                            onhover: { enable: true, mode: 'repulse' },
+                            onhover: { enable: true, mode: 'bubble' },
                             onclick: { enable: true, mode: 'push' },
                             resize: true
+                        },
+                        modes: {
+                            bubble: { distance: 200, size: 6, duration: 2, opacity: 0.8 }
                         }
                     }
                 });
             }
 
-            // Initialize Typed.js
+            // Typed.js
             if (window.Typed) {
                 new Typed('.typing-text', {
                     strings: ['Security Researcher', 'Ethical Hacker', 'Bug Hunter'],
                     typeSpeed: 100,
                     backSpeed: 60,
-                    loop: true
+                    loop: true,
+                    backDelay: 1000
                 });
             }
+
+            // Scroll animation for sections
+            const sections = document.querySelectorAll('section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            sections.forEach(section => observer.observe(section));
+
+            // Card click animation
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        card.style.transform = 'scale(1)';
+                    }, 100);
+                });
+            });
         });
     </script>
 </body>
